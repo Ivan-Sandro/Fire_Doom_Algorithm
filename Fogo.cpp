@@ -8,7 +8,7 @@ void FOGO::_Get_Paleta_Regular_Cor(const char* Nome_Paleta, int Ponto_Inicial_X,
     Paleta = al_load_bitmap(Nome_Paleta);
 
     if(!Paleta){
-        std::cout << "ERRO AO CARREGAR O BITMAP. >> " << Nome_Paleta ;
+        _Erro_Box("Erro ao carregar a Paleta do Fogo");
         system("pause");
         return;
     }
@@ -27,11 +27,13 @@ void FOGO::_Definir_Matriz_Fogo(int X, int Y, int Tamanho_Quadrados_Fogo){
 
     Largura_Matriz = int(X/Tamanho_Quadrados_Fogo);
     Altura_Matriz = int(Y/Tamanho_Quadrados_Fogo);
+
     std::vector <char> Linha;
-    for(int B = 0 ; B < Largura_Matriz ; B++){
+    for(int A = 0 ; A < Largura_Matriz ; A++){
         Linha.push_back(0);
     }
-    for(int A = 0 ; A < Altura_Matriz ; A++){
+
+    for(int B = 0 ; B < Altura_Matriz ; B++){
         Matriz_Fogo.push_back(Linha);
     }
 }
@@ -52,17 +54,11 @@ void FOGO::_Mover_Fogo(int Chance_UP, int Chance_Left){
 
 }
 
-void FOGO::_Manter_Fogo_Padrao(void){
-    for(int A = 0 ; A < Largura_Matriz ; A++)
-        Matriz_Fogo[Altura_Matriz-1][A] = Paleta_Cores.size()-1;
-}
-
-
 void FOGO::_Desenhar_Fogo(void){
     int X_Quadrado_Fogo;
     int Y_Quadrado_Fogo;
 
-    for(int X = 0 ; X < Largura_Matriz ; X ++){
+    for(int X = 0 ; X < Largura_Matriz ; X++){
         for(int Y = 0 ; Y < Altura_Matriz ; Y++){
             if(Matriz_Fogo[Y][X] > 0){
 
@@ -75,4 +71,20 @@ void FOGO::_Desenhar_Fogo(void){
         }
     }
 
+}
+
+void FOGO::_Manter_Fogo_Padrao(void){
+        for(int A = 0 ; A < Largura_Matriz ; A++)
+            Matriz_Fogo[Altura_Matriz-1][A] = Paleta_Cores.size()-1;
+}
+void FOGO::_Apagar_Fogo(void){
+    for(int X = 0 ; X < Largura_Matriz ; X++){
+        for(int Y = 0 ; Y < Altura_Matriz ; Y++){
+            Matriz_Fogo[Y][X] = 0;
+        }
+    }
+}
+void FOGO::_Zerar_Ultima_Fileira_Fogo(void){
+    for(int X = 0 ; X < Largura_Matriz ; X++)
+        Matriz_Fogo[Altura_Matriz-1][X] = 0;
 }

@@ -2,10 +2,7 @@
 #define FOGO_H_INCLUDED
 
 #include <vector>
-#include <string>
-#include <iostream>
 #include "Sistema_Allegro5.0.h"
-
 
 class FOGO{
     private:
@@ -23,8 +20,10 @@ class FOGO{
         void _Definir_Matriz_Fogo(int X, int Y, int Tamanho_Quadrados_Fogo);
         void _Mover_Fogo(int Chance_UP, int Chance_Left);
         void _Desenhar_Fogo(void);
-        void _Manter_Fogo_Padrao();
 
+        void _Manter_Fogo_Padrao        (void);
+        void _Apagar_Fogo               (void);
+        void _Zerar_Ultima_Fileira_Fogo (void);
 };
 
 #endif // FOGO_H_INCLUDED

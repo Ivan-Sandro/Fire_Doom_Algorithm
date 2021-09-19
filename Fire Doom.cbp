@@ -41,6 +41,8 @@
 		</Linker>
 		<Unit filename="Fogo.cpp" />
 		<Unit filename="Fogo.h" />
+		<Unit filename="Painel.cpp" />
+		<Unit filename="Painel.h" />
 		<Unit filename="Sistema_Allegro5.0.cpp" />
 		<Unit filename="Sistema_Allegro5.0.h" />
 		<Unit filename="main.cpp" />
