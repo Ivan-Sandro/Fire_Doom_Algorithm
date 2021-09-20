@@ -13,22 +13,24 @@ class BOTAO {
 
         const char   *Nome_texto;
 
-        bool Ativado = false;
+        char Botao_Esquerda_Direita;
+
     public:
+        bool Ativado = false;
 
         void _Desenhar_BOTAO    (ALLEGRO_COLOR Cor, ALLEGRO_COLOR Cor_Preenchido);
 
-        void _Criar_BOTAO (const char *Nome, short int Posisao_X, short int Posisao_Y, short int Tamanho_X, short int Tamanho_Y);
+        void _Criar_BOTAO (const char *Nome, short int Posisao_X, short int Posisao_Y, short int Tamanho_X, short int Tamanho_Y, char Tipo_Escrita);
         void _Verificar_Impacto_BOTAO(int MouseX, int MouseY);
-
-        bool _Get_Ativado(void);
 };
 
 void _Definir_Botoes(BOTAO Mapa[], short int Largura);
 
 void _Verificar_Click_Botoes(int MouseX, int MouseY, BOTAO Botoes[]);
 void _Desenhar_Botoes(BOTAO Botoes[]);
+
 void _Eventos_Se_BOTAO_Ativo(BOTAO Botoes[], FOGO &fg_Display);
+void _Desativar_Botoes_MOUSE_BUTTON_UP(BOTAO Botoes[]);
 
 bool _Carregar_Fonte_BOTAO(const char *Local_Nome_Fonte, unsigned short int Tamanho_Fonte);
 void _Destruir_Fonte_BOTAO(void);

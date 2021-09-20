@@ -1,5 +1,5 @@
 #include <ctime>
-#include <map>
+#include <iostream>
 #include <string>
 #include "Sistema_Allegro5.0.h"
 #include "Fogo.h"
@@ -17,11 +17,12 @@ int main()
     srand(time(NULL));
 
     bool EXIT_PROGRAM = false;
+    unsigned char Clicando = false;
 
     DISPLAY Janela;
     ALLEGRO_EVENT evento;
     FOGO fg_Display;
-    BOTAO Botoes[3];
+    BOTAO Botoes[15];
 
     _Iniciar_Sistema_Allegro();
     _Definir_Botoes(Botoes, Largura_Tela);
@@ -49,10 +50,21 @@ int main()
 
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
                 _Verificar_Click_Botoes(evento.mouse.x, evento.mouse.y, Botoes);
+                Clicando = true;
+            break;
+
+            case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+                _Desativar_Botoes_MOUSE_BUTTON_UP(Botoes);
+                Clicando = false;
+            break;
+
+            case ALLEGRO_EVENT_MOUSE_AXES:
+                if(Clicando)
+                    fg_Display._Desenhar_Com_Mouse(evento.mouse.x, evento.mouse.y);
             break;
 
             case ALLEGRO_EVENT_TIMER:
-                fg_Display._Mover_Fogo(50, 30);
+                fg_Display._Mover_Fogo();
 
                 _Eventos_Se_BOTAO_Ativo(Botoes, fg_Display);
 

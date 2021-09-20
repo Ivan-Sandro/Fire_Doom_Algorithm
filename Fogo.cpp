@@ -1,5 +1,6 @@
 
 #include "Fogo.h"
+#include <iostream>
 
 void FOGO::_Get_Paleta_Regular_Cor(const char* Nome_Paleta, int Ponto_Inicial_X, int Ponto_Inicial_Y, int Distancia_Pixeis_X, int Distancia_Pixeis_Y, int Matriz_Paleta_X, int Matriz_Paleta_Y){
 
@@ -21,12 +22,18 @@ void FOGO::_Get_Paleta_Regular_Cor(const char* Nome_Paleta, int Ponto_Inicial_X,
     al_destroy_bitmap(Paleta);
 }
 
-void FOGO::_Definir_Matriz_Fogo(int X, int Y, int Tamanho_Quadrados_Fogo){
+void FOGO::_Definir_Matriz_Fogo(int X, int Y, short int Tamanho_Quadrados_Fogo){
 
     Px_Tamanho_Quadrados_Fogo = Tamanho_Quadrados_Fogo;
+    Chance_Fogo_Esquerda = 40;
+    Chance_Fogo_Subir = 70;
+    Intensidade_Esquerda = 3;
+    Intensidade_Subir = 2;
+    Largura_Pincel = 1;
+    Altura_Pincel = 1;
 
-    Largura_Matriz = int(X/Tamanho_Quadrados_Fogo);
-    Altura_Matriz = int(Y/Tamanho_Quadrados_Fogo);
+    Largura_Matriz = 1 + int(X/Tamanho_Quadrados_Fogo);
+    Altura_Matriz = 1 + int(Y/Tamanho_Quadrados_Fogo);
 
     std::vector <char> Linha;
     for(int A = 0 ; A < Largura_Matriz ; A++){
@@ -38,17 +45,19 @@ void FOGO::_Definir_Matriz_Fogo(int X, int Y, int Tamanho_Quadrados_Fogo){
     }
 }
 
-void FOGO::_Mover_Fogo(int Chance_UP, int Chance_Left){
+void FOGO::_Mover_Fogo(){
     for(int X = 0 ; X < Largura_Matriz ; X++){
         for(int Y = 0 ; Y < Altura_Matriz ; Y++){
-                if(rand() % 100 < Chance_UP && Y > 0){
-                    Matriz_Fogo[Y-1][X] = Matriz_Fogo[Y][X] -rand()%3;
-                }
-                if(rand () % 100 < Chance_Left && X > 0 && Y > 0){
-                   Matriz_Fogo[Y-1][X-1] = Matriz_Fogo[Y][X]-rand()%3;
-                }
 
-            if(Matriz_Fogo[Y][X] < 0)Matriz_Fogo[Y][X] = 0;
+            if(rand() % 100 < Chance_Fogo_Subir && Y > 0){
+                Matriz_Fogo[Y-1][X] = Matriz_Fogo[Y][X] -rand() % Intensidade_Subir;
+                if(Matriz_Fogo[Y-1][X] < 0)Matriz_Fogo[Y-1][X] = 0;
+            }
+
+            if(rand () % 100 < Chance_Fogo_Esquerda && X > 0 && Y > 0){
+                Matriz_Fogo[Y-1][X-1] = Matriz_Fogo[Y][X]-rand() % Intensidade_Esquerda;
+                if(Matriz_Fogo[Y-1][X-1] < 0)Matriz_Fogo[Y-1][X-1] = 0;
+            }
         }
     }
 
@@ -73,8 +82,26 @@ void FOGO::_Desenhar_Fogo(void){
 
 }
 
+void FOGO::_Desenhar_Com_Mouse(short int X, short int Y){
+
+    short int dX, dY;
+    short int lugar_Pintado_X = X/Px_Tamanho_Quadrados_Fogo;
+    short int lugar_Pintado_Y = Y/Px_Tamanho_Quadrados_Fogo;
+
+    for(dX = -Largura_Pincel ; dX < Largura_Pincel ; dX++){
+        for(dY = -Altura_Pincel ; dY < Altura_Pincel; dY++){
+
+        if(dX + lugar_Pintado_X < 0 || dX + lugar_Pintado_X > Largura_Matriz-2 ||
+           dY + lugar_Pintado_Y < 0 || dY + lugar_Pintado_Y > Altura_Matriz-1)
+            break;
+        else
+            Matriz_Fogo[dY + lugar_Pintado_Y][dX + lugar_Pintado_X] = Paleta_Cores.size()-1;
+        }
+    }
+}
+
 void FOGO::_Manter_Fogo_Padrao(void){
-        for(int A = 0 ; A < Largura_Matriz ; A++)
+        for(int A = 0 ; A < Largura_Matriz-1 ; A++)
             Matriz_Fogo[Altura_Matriz-1][A] = Paleta_Cores.size()-1;
 }
 void FOGO::_Apagar_Fogo(void){
@@ -87,4 +114,57 @@ void FOGO::_Apagar_Fogo(void){
 void FOGO::_Zerar_Ultima_Fileira_Fogo(void){
     for(int X = 0 ; X < Largura_Matriz ; X++)
         Matriz_Fogo[Altura_Matriz-1][X] = 0;
+}
+
+void FOGO::_Aumentar_Chance_Fogo_Subir    (void){
+    if(Chance_Fogo_Subir < 100)
+        Chance_Fogo_Subir += 1;
+}
+void FOGO::_Diminuir_Chance_Fogo_Subir    (void){
+    if(Chance_Fogo_Subir > 0)
+        Chance_Fogo_Subir -= 1;
+}
+void FOGO::_Aumentar_Chance_Fogo_Esquerda (void){
+    if(Chance_Fogo_Esquerda < 100)
+        Chance_Fogo_Esquerda += 1;
+}
+void FOGO::_Diminuir_Chance_Fogo_Esquerda (void){
+    if(Chance_Fogo_Esquerda > 0)
+        Chance_Fogo_Esquerda -= 1;
+}
+void FOGO::_Aumentar_Subtrair_Subir       (void){
+    if(Intensidade_Subir < 10)
+        Intensidade_Subir += 1;
+}
+void FOGO::_Diminuir_Subtrair_Subir       (void){
+    if(Intensidade_Subir > 1)
+        Intensidade_Subir -= 1;
+}
+void FOGO::_Aumentar_Subtrair_Esquerda    (void){
+    if(Intensidade_Esquerda < 10)
+        Intensidade_Esquerda += 1;
+}
+void FOGO::_Diminuir_Subtrair_Esquerda    (void){
+    if(Intensidade_Esquerda > 1)
+        Intensidade_Esquerda -= 1;
+}
+void FOGO::_Aumentar_Pincel               (void){
+    if(Altura_Pincel < 10)
+        Altura_Pincel++;
+    if(Largura_Pincel < 10)
+        Largura_Pincel++;
+}
+void FOGO::_Diminuir_Pincel               (void){
+    if(Altura_Pincel > 0)
+        Altura_Pincel--;
+    if(Largura_Pincel > 0)
+        Largura_Pincel--;
+}
+void FOGO::_Reduzir_fogo_por_frame        (void){
+    for(int X = 0 ; X < Largura_Matriz-1 ; X++){
+        for (int Y = 0 ; Y < Altura_Matriz-1 ; Y++){
+            if(Matriz_Fogo[Y][X] > 0)
+                Matriz_Fogo[Y][X]--;
+        }
+    }
 }
