@@ -29,8 +29,6 @@ void FOGO::_Definir_Matriz_Fogo(int X, int Y, short int Tamanho_Quadrados_Fogo){
     Chance_Fogo_Subir = 70;
     Intensidade_Esquerda = 3;
     Intensidade_Subir = 2;
-    Largura_Pincel = 1;
-    Altura_Pincel = 1;
 
     Largura_Matriz = 1 + int(X/Tamanho_Quadrados_Fogo);
     Altura_Matriz = 1 + int(Y/Tamanho_Quadrados_Fogo);
@@ -82,14 +80,14 @@ void FOGO::_Desenhar_Fogo(void){
 
 }
 
-void FOGO::_Desenhar_Com_Mouse(short int X, short int Y){
+void FOGO::_Desenhar_Com_Mouse(int X, int Y){
 
     short int dX, dY;
     short int lugar_Pintado_X = X/Px_Tamanho_Quadrados_Fogo;
     short int lugar_Pintado_Y = Y/Px_Tamanho_Quadrados_Fogo;
 
-    for(dX = -Largura_Pincel ; dX < Largura_Pincel ; dX++){
-        for(dY = -Altura_Pincel ; dY < Altura_Pincel; dY++){
+    for(dX = -2 ; dX < 3 ; dX++){
+        for(dY = -2 ; dY < 3; dY++){
 
         if(dX + lugar_Pintado_X < 0 || dX + lugar_Pintado_X > Largura_Matriz-2 ||
            dY + lugar_Pintado_Y < 0 || dY + lugar_Pintado_Y > Altura_Matriz-1)
@@ -147,24 +145,4 @@ void FOGO::_Aumentar_Subtrair_Esquerda    (void){
 void FOGO::_Diminuir_Subtrair_Esquerda    (void){
     if(Intensidade_Esquerda > 1)
         Intensidade_Esquerda -= 1;
-}
-void FOGO::_Aumentar_Pincel               (void){
-    if(Altura_Pincel < 10)
-        Altura_Pincel++;
-    if(Largura_Pincel < 10)
-        Largura_Pincel++;
-}
-void FOGO::_Diminuir_Pincel               (void){
-    if(Altura_Pincel > 0)
-        Altura_Pincel--;
-    if(Largura_Pincel > 0)
-        Largura_Pincel--;
-}
-void FOGO::_Reduzir_fogo_por_frame        (void){
-    for(int X = 0 ; X < Largura_Matriz-1 ; X++){
-        for (int Y = 0 ; Y < Altura_Matriz-1 ; Y++){
-            if(Matriz_Fogo[Y][X] > 0)
-                Matriz_Fogo[Y][X]--;
-        }
-    }
 }

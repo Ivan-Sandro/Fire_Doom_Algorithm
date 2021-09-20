@@ -18,15 +18,13 @@ class FOGO{
         unsigned char Chance_Fogo_Subir, Chance_Fogo_Esquerda;
         unsigned char Intensidade_Subir, Intensidade_Esquerda;
 
-        unsigned char Largura_Pincel, Altura_Pincel;
-
     public:
 
         void _Get_Paleta_Regular_Cor (const char* Nome_Paleta, int Ponto_Inicial_X, int Ponto_Inicial_Y, int Distancia_Pixeis_X, int Distancia_Pixeis_Y, int Matriz_Paleta_X, int Matriz_Paleta_Y);
         void _Definir_Matriz_Fogo(int X, int Y, short int Tamanho_Quadrados_Fogo);
         void _Mover_Fogo();
         void _Desenhar_Fogo(void);
-        void _Desenhar_Com_Mouse(short int X, short int Y);
+        void _Desenhar_Com_Mouse(int X, int Y);
 
         void _Manter_Fogo_Padrao            (void);
         void _Zerar_Ultima_Fileira_Fogo     (void);
@@ -39,9 +37,6 @@ class FOGO{
         void _Diminuir_Subtrair_Subir       (void);
         void _Aumentar_Subtrair_Esquerda    (void);
         void _Diminuir_Subtrair_Esquerda    (void);
-        void _Aumentar_Pincel               (void);
-        void _Diminuir_Pincel               (void);
-        void _Reduzir_fogo_por_frame        (void);
 };
 
 #endif // FOGO_H_INCLUDED

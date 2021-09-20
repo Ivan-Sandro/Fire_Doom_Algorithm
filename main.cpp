@@ -22,7 +22,7 @@ int main()
     DISPLAY Janela;
     ALLEGRO_EVENT evento;
     FOGO fg_Display;
-    BOTAO Botoes[15];
+    BOTAO Botoes[12];
 
     _Iniciar_Sistema_Allegro();
     _Definir_Botoes(Botoes, Largura_Tela);
@@ -61,12 +61,14 @@ int main()
             case ALLEGRO_EVENT_MOUSE_AXES:
                 if(Clicando)
                     fg_Display._Desenhar_Com_Mouse(evento.mouse.x, evento.mouse.y);
+
             break;
 
             case ALLEGRO_EVENT_TIMER:
                 fg_Display._Mover_Fogo();
 
                 _Eventos_Se_BOTAO_Ativo(Botoes, fg_Display);
+
 
                 al_clear_to_color(al_map_rgb(0, 0, 0));
                 fg_Display._Desenhar_Fogo();
